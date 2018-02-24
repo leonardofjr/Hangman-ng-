@@ -1,0 +1,40 @@
+.top, .middle, .bottom {
+   text-align: center;
+}
+
+.top li, .middle li, .bottom li {
+    display: inline-block;
+    padding: 25px;
+    background: #fff;
+    color: #444;
+    border: 1px solid #444;
+    margin: 1px;
+}
+
+.top li:hover, .middle li:hover, .bottom li:hover {
+    background: #444;
+    color: #fff;
+}
+
+#hangman-container {
+    text-align: center;
+}
+#lettersPlayed {
+    text-align: center;
+}
+
+.container {
+    margin: auto;
+
+}
+
+.word {
+    text-align: center;
+}
+
+.word li {
+    list-style: none;
+    display: inline-block;
+    font-size: 2em;
+    margin: 0 25px;
+}
