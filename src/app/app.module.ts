@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
 import { AboutComponent } from './about/about.component';
+import { WordsService } from './words.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { AboutComponent } from './about/about.component';
       { path: 'about', component: AboutComponent }
     ])
   ],
-  providers: [],
+  providers: [WordsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

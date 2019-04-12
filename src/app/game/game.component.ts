@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { WordsService } from '../words.service';
+import { Words } from '../words';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -11,7 +12,7 @@ export class GameComponent implements OnInit {
   bottomRow: string[] =  ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 
   playerInput: string = undefined;
-  words: String[] = ["Lion", "Tiger", "Elephant"];
+  words: any[];
   word: String[] = [];
   revealedLetters: String[] = [];
   lettersPlayed: String[] = [];
@@ -21,11 +22,17 @@ export class GameComponent implements OnInit {
   gameOver: boolean = false;
   win: boolean = false;
 
-  constructor() { }
+  constructor(private wordsSerivce: WordsService) { }
 
   ngOnInit() {
+    console.log(this.words);
+    this.getWords();
     this.sliceWord();
 
+  }
+
+  getWords(): void {
+    this.words = this.wordsSerivce.getWords();
   }
 
   chooseWord(): String {
