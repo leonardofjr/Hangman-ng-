@@ -1,23 +1,23 @@
 var express = require('express');
 var router = express.Router();
-//var ctrlherbStrains = require('../controllers/herb');
+var ctrlWord = require('../controllers/word');
 
 // Read All
-//router.get('/herbs',ctrlherbStrains.HerbReadAll)
-//router.get('/herbs', ctrlherbStrains.HerbReadAll)
+router.get('/herbs',ctrlWord.HerbReadAll)
+router.get('/herbs', ctrlWord.HerbReadAll)
 
 // Read By ID
-//router.get('/herb/:herbid', ctrlherbStrains.HerbReadOne);
+//router.get('/herb/:herbid', ctrlWord.HerbReadOne);
 
 // Create new entry
-//router.post('/herb', ctrlherbStrains.HerbCreate);
+//router.post('/herb', ctrlWord.HerbCreate);
 
 // Updating entry by ID
-//router.put('/herb/:herbid', ctrlherbStrains.HerbUpdate)
+//router.put('/herb/:herbid', ctrlWord.HerbUpdate)
 
 // Delete entry by ID
-//router.delete('/herb/:herbid', ctrlherbStrains.HerbDelete)
+//router.delete('/herb/:herbid', ctrlWord.HerbDelete)
 
-//router.post('/herb/:herbid', ctrlherbStrains.addMedicinalProperties);
+//router.post('/herb/:herbid', ctrlWord.addMedicinalProperties);
 
 module.exports = router;

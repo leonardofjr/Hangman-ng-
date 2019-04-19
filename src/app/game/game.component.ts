@@ -12,7 +12,7 @@ export class GameComponent implements OnInit {
   bottomRow: string[] =  ['z', 'x', 'c', 'v', 'b', 'n', 'm']
 
   playerInput: string = undefined;
-  words: any[];
+  words;
   word: String[] = [];
   revealedLetters: String[] = [];
   lettersPlayed: String[] = [];
@@ -25,26 +25,23 @@ export class GameComponent implements OnInit {
   constructor(private wordsSerivce: WordsService) { }
 
   ngOnInit() {
-    console.log(this.words);
-    this.getWords();
-    this.sliceWord();
-
+    this.chooseWord();
   }
 
-  getWords(): void {
-    this.words = this.wordsSerivce.getWords();
+  chooseWord():void {
+     this.wordsSerivce.getWords()
+      .subscribe(res => {
+        // Storing response
+          this.words = res;
+          // I'm choosing an item from the observable array by using the Math.random function
+          this.words = res[Math.floor(Math.random() * this.words.length)];
+          // Now that i've stored the word from the array I will  take every letter and store it in as an array
+          for (let i = 0; i < this.words.word.length; i++) {
+            this.word[i] = this.words.word.charAt(i).toLowerCase();
+          }
+      })
   }
 
-  chooseWord(): String {
-    return this.words[Math.floor(Math.random() * this.words.length)]
-  }
-
-  sliceWord(): void {
-    const temp = this.chooseWord();
-    for (let i = 0; i < temp.length; i++) {
-      this.word[i] = temp.charAt(i).toLowerCase();
-    }
-  }
 
   process(e): void {
         this.matchFound = false;
