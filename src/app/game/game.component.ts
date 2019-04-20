@@ -30,16 +30,24 @@ export class GameComponent implements OnInit {
 
   chooseWord():void {
      this.wordsSerivce.getWords()
-      .subscribe(res => {
-        // Storing response
-          this.words = res;
-          // I'm choosing an item from the observable array by using the Math.random function
-          this.words = res[Math.floor(Math.random() * this.words.length)];
-          // Now that i've stored the word from the array I will  take every letter and store it in as an array
-          for (let i = 0; i < this.words.word.length; i++) {
-            this.word[i] = this.words.word.charAt(i).toLowerCase();
-          }
-      })
+      .subscribe(
+        res => {
+          // Storing response
+            this.words = res;
+            // I'm choosing an item from the observable array by using the Math.random function
+            this.words = res[Math.floor(Math.random() * this.words.length)];
+            // Now that i've stored the word from the array I will  take every letter and store it in as an array
+            for (let i = 0; i < this.words.word.length; i++) {
+              this.word[i] = this.words.word.charAt(i).toLowerCase();
+            }
+        },
+        err => {
+          console.log(err.message);
+        },
+        () => {
+          console.log("done");
+        }
+      )
   }
 
 

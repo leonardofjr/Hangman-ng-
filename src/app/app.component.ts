@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
         appId: '456804481528314',
         cookie: true,
         xfbml: true,
-        version: 'v3.1'
+        version: 'v3.2'
       });
       FB.AppEvents.logPageView();
     };
@@ -30,35 +30,39 @@ export class AppComponent implements OnInit {
 
   }
 
-     checkLoginState() {
-      FB.getLoginStatus(function (response) {
-        this.statusChangeCallback(response);
+  submitLogin() {
+    console.log("submit login to facebook");
+    // FB.login();
+    FB.login((response) => {
+      console.log('submitLogin', response);
+      if (response.authResponse) {
+        this.graphAPI(response.authResponse.userID);
+        //login success
+        //login success code here
+        //redirect to home page
+      }
+      else {
+        console.log('User login failed');
+      }
+    });
 
-      });
-    }
-    statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
-        // The response object is returned with a status field that lets the
-        // app know the current login status of the person.
-        // Full docs on the response object can be found in the documentation
-        // for FB.getLoginStatus().
-        if (response.status === 'connected') {
-          // Logged into your app and Facebook.
-          this.testAPI();
-        } else {
-          // The person is not logged into your app or we are unable to tell.
-          document.getElementById('status').innerHTML = 'Please log ' +
-            'into this app.';
+  }
+
+  logout() {
+    FB.logout(function(response) {
+      console.log('logout', response)
+    })
+  }
+
+  graphAPI(userId) {
+    /* make the API call */
+    FB.api(
+      userId,
+      function (response) {
+        if (response && !response.error) {
+         console.log(response);
         }
       }
-      testAPI() {
-        console.log('Welcome! Fetching your information.... ');
-        FB.api('/me', function (response) {
-          console.log('Successful login for: ' + response.name);
-          document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-        });
-      }
-    }
-
+    );
+  }
+}
