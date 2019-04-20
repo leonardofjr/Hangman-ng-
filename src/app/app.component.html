@@ -8,17 +8,22 @@
 
       </div>
   <div class="col-sm-9">
+       <button id="loginBtn" (click)="submitLogin($event);">Login with facebook</button>
+       <button class="" (click)="logout();" id="logoutBtn" style="display:none">Logout</button>
+       <div id="status">
+
+       </div>
     <h1>
       {{title}}
     </h1>
-    <router-outlet></router-outlet>
-      <button 
-   (click)="submitLogin();">Login with facebook</button>
-      <button class="fb_button"
-   (click)="logout();">Logout</button>
-      <div id="status">
+    <div *ngIf="loginStatus then router else nothing">
 
-      </div>
+    </div>
+       <ng-template #router>
+         <router-outlet></router-outlet>
+       </ng-template>
+       <ng-template #nothing>
+       </ng-template>
   </div>
 </div>  
 
