@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  hideLogoutBtn() {
+    hideLogoutBtn() {
     document.getElementById('logoutBtn').style.display = "none";
 
   }
@@ -111,15 +111,15 @@ export class AppComponent implements OnInit {
     document.getElementById('loginBtn').style.display = "none";
   }
   showIntroSectionContainer() {
-    document.getElementById('introSectionContainer').className = "d-flex";
+    document.getElementById('introSectionContainer').style.display = "block";
   }
   hideIntroSectionContainer() {
-    document.getElementById('introSectionContainer').className = "d-none"
+    document.getElementById('introSectionContainer').style.display = "none";
   }
   showGameSectionContainer() {
-    document.getElementById('gameSectionContainer').className = "d-flex"
+    document.getElementById('gameSectionContainer').style.display = "block";
   }
   hideGameSectionContainer() {
-    document.getElementById('gameSectionContainer').className = "d-none"
+    document.getElementById('gameSectionContainer').style.display = "none";
   }
 }

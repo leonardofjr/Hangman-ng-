@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
 import { WordsService } from './words.service';
+import { AuthGuard } from './auth.guard';
 
 import 'rxjs/Rx';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -20,12 +21,11 @@ import { SignInComponent } from './sign-in/sign-in.component';
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: ' ', component: AppComponent },
-      { path: 'game', component: GameComponent },
-      { path: 'sign-in', component: SignInComponent }
+      { path: '', component: SignInComponent },
+      { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
     ])
   ],
-  providers: [WordsService],
+  providers: [WordsService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

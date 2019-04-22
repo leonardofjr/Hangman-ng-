@@ -1,23 +1,4 @@
 
-
-  <div id="introSectionContainer" class="d-flex  justify-content-center vh-100">
-      <div class=" align-self-center ">
-        <h1>
-          {{title}}
-        </h1>
-        <button id="loginBtn" class="fb btn" style="background-color: #3B5998; color: white;" (click)="submitLogin($event);"> <i class="fab fa-facebook-f"></i> Login
-          with Facebook
-</button>
-        <button class="fb btn" style="background-color: #3B5998; color: white; display:none " (click)=" logout();"
-          id="logoutBtn"> Logout</button>
-      </div>
-       <div id="status">
-
-       </div>
-    </div>
-    
-
-    <div id="gameSectionContainer">
-         <router-outlet></router-outlet>
-
-    </div>
+<button class="fb btn d-none" style="background-color: #3B5998; color: white; " (click)=" logout();"
+  id="logoutBtn"> Logout</button>
+<router-outlet></router-outlet>
