@@ -5,23 +5,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
-import { AboutComponent } from './about/about.component';
 import { WordsService } from './words.service';
 
 import 'rxjs/Rx';
+import { SignInComponent } from './sign-in/sign-in.component';
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
-    AboutComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
+      { path: ' ', component: AppComponent },
       { path: 'game', component: GameComponent },
-      { path: 'about', component: AboutComponent }
+      { path: 'sign-in', component: SignInComponent }
     ])
   ],
   providers: [WordsService],

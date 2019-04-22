@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { $ } from 'protractor';
+
+import { Router } from "@angular/router";
+
 declare var FB: any;
 
 @Component({
@@ -10,6 +13,9 @@ declare var FB: any;
 export class AppComponent implements OnInit {
   title = 'Hangman';
   loginStatus:boolean = false;
+
+  constructor(private router: Router){}
+
   ngOnInit() {
 
     (window as any).fbAsyncInit = function () {
@@ -40,12 +46,17 @@ export class AppComponent implements OnInit {
       if (response.authResponse) {
         this.hideLoginBtn();
         this.showLogoutBtn();
+
         console.log(el);
         this.loginStatus = true;
+
         this.graphAPI(response.authResponse.userID);
         //login success
         //login success code here
         //redirect to home page
+        this.router.navigateByUrl('game');
+        this.hideIntroSectionContainer();
+        this.showGameSectionContainer();
       }
       else {
         console.log('User login failed');
@@ -53,20 +64,7 @@ export class AppComponent implements OnInit {
     });
 
   }
-  hideLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "none";
 
-  }
-  showLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "block";
-
-  }
-  showLoginBtn() {
-    document.getElementById('loginBtn').style.display = "block";
-  }
-  hideLoginBtn() {
-    document.getElementById('loginBtn').style.display = "none";
-  }
   logout() {
     let _self = this;
     FB.logout(function(response) {
@@ -74,6 +72,9 @@ export class AppComponent implements OnInit {
         _self.loginStatus = false;
         _self.showLoginBtn();
         _self.hideLogoutBtn();
+        _self.showIntroSectionContainer();
+        _self.hideGameSectionContainer();
+        _self.router.navigateByUrl('/');
         console.log('logout', response)
       }
 
@@ -92,5 +93,33 @@ export class AppComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  hideLogoutBtn() {
+    document.getElementById('logoutBtn').style.display = "none";
+
+  }
+  showLogoutBtn() {
+    document.getElementById('logoutBtn').style.display = "block";
+
+  }
+  showLoginBtn() {
+    document.getElementById('loginBtn').style.display = "block";
+  }
+  hideLoginBtn() {
+    document.getElementById('loginBtn').style.display = "none";
+  }
+  showIntroSectionContainer() {
+    document.getElementById('introSectionContainer').className = "d-flex";
+  }
+  hideIntroSectionContainer() {
+    document.getElementById('introSectionContainer').className = "d-none"
+  }
+  showGameSectionContainer() {
+    document.getElementById('gameSectionContainer').className = "d-flex"
+  }
+  hideGameSectionContainer() {
+    document.getElementById('gameSectionContainer').className = "d-none"
   }
 }

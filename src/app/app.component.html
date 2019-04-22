@@ -1,29 +1,23 @@
 
-<div class="row">
-  <div class="col-sm-3">
-    <ul class="nav nav-pills">
-      <li role="presentation" class="active"><a routerLink="/game">Game</a></li>
-      <li role="presentation"><a routerLink="/about">About</a></li>
-    </ul>
 
+  <div id="introSectionContainer" class="d-flex  justify-content-center vh-100">
+      <div class=" align-self-center ">
+        <h1>
+          {{title}}
+        </h1>
+        <button id="loginBtn" class="fb btn" style="background-color: #3B5998; color: white;" (click)="submitLogin($event);"> <i class="fab fa-facebook-f"></i> Login
+          with Facebook
+</button>
+        <button class="fb btn" style="background-color: #3B5998; color: white; display:none " (click)=" logout();"
+          id="logoutBtn"> Logout</button>
       </div>
-  <div class="col-sm-9">
-       <button id="loginBtn" (click)="submitLogin($event);">Login with facebook</button>
-       <button class="" (click)="logout();" id="logoutBtn" style="display:none">Logout</button>
        <div id="status">
 
        </div>
-    <h1>
-      {{title}}
-    </h1>
-    <div *ngIf="loginStatus then router else nothing">
+    </div>
+    
+
+    <div id="gameSectionContainer">
+         <router-outlet></router-outlet>
 
     </div>
-       <ng-template #router>
-         <router-outlet></router-outlet>
-       </ng-template>
-       <ng-template #nothing>
-       </ng-template>
-  </div>
-</div>  
-
