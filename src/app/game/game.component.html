@@ -1,28 +1,28 @@
-<div class="container">
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+  <div>
+      <div id="hangman-container"> 
+        <img id="hangman-img" src="./assets/imgs/0.png" alt="">
+      </div>
+      <ul class="word">
+        <li  *ngFor="let letter of word; let i = index" id="{{i}}">_</li>
+      </ul>
 
-<div id="hangman-container"> 
-  <img id="hangman-img" src="./assets/imgs/0.png" alt="">
-</div>
-<ul class="word">
-  <li  *ngFor="let letter of word; let i = index" id="{{i}}">_</li>
-</ul>
 
+        <ul class="top" >
+          <li class="keys" (click)="process($event)"  *ngFor="let keys of topRow">{{keys}}</li>
+        </ul>
 
-  <ul class="top" >
-    <li class="keys" (click)="process($event)"  *ngFor="let keys of topRow">{{keys}}</li>
-  </ul>
+        <ul class="middle">
+          <li class="keys" (click)="process($event)" *ngFor="let keys of middleRow">{{keys}}</li>
+        </ul>
 
-  <ul class="middle">
-    <li class="keys" (click)="process($event)" *ngFor="let keys of middleRow">{{keys}}</li>
-  </ul>
-
-  <ul class="bottom">
-    <li class="keys" (click)="process($event)" *ngFor="let keys of bottomRow">{{keys}}</li>
-  </ul>
-
-<div *ngIf="win === true">
-  You win!
-  <a routerLink="/game">Play Again?</a>
-</div>
+        <ul class="bottom">
+          <li class="keys" (click)="process($event)" *ngFor="let keys of bottomRow">{{keys}}</li>
+        </ul>
+  </div>
+  <div *ngIf="win === true">
+    You win!
+    <a routerLink="/game">Play Again?</a>
+  </div>
 
 </div>

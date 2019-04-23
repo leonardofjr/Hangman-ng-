@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { $ } from 'protractor';
+import { NgZone } from '@angular/core'
 
 import { Router } from "@angular/router";
 
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'Hangman';
   loginStatus:boolean = false;
 
-  constructor(private router: Router){}
+  constructor(private _ngZone: NgZone, private router: Router){}
 
   ngOnInit() {
 
@@ -38,88 +38,33 @@ export class AppComponent implements OnInit {
 
   }
 
-  submitLogin(el) {
-    console.log("submit login to facebook");
-    // FB.login();
-    FB.login((response) => {
-      console.log('submitLogin', response);
-      if (response.authResponse) {
-        this.hideLoginBtn();
-        this.showLogoutBtn();
-
-        console.log(el);
-        this.loginStatus = true;
-
-        this.graphAPI(response.authResponse.userID);
-        //login success
-        //login success code here
-        //redirect to home page
-        this.router.navigateByUrl('game');
-        this.hideIntroSectionContainer();
-        this.showGameSectionContainer();
-      }
-      else {
-        console.log('User login failed');
-      }
-    });
-
-  }
-
   logout() {
     let _self = this;
-    FB.logout(function(response) {
-      if (response) {
-        _self.loginStatus = false;
-        _self.showLoginBtn();
-        _self.hideLogoutBtn();
-        _self.showIntroSectionContainer();
-        _self.hideGameSectionContainer();
-        _self.router.navigateByUrl('/');
-        console.log('logout', response)
-      }
+    FB.getLoginStatus(function(response) {
+      if(response && response.status === 'connected') {
+        FB.logout(function (response) {
+          if (response) {
+            _self.hideLogoutBtn();
 
+            _self.loginStatus = false;
+
+            _self._ngZone.run(() => {
+              _self.router.navigateByUrl('/');
+            })
+
+            localStorage.removeItem('token');
+            console.log('logout', response)
+          }
+
+        })
+      }
     })
-  }
-
-
-
-  graphAPI(userId) {
-    /* make the API call */
-    FB.api(
-      userId,
-      function (response) {
-        if (response && !response.error) {
-         console.log(response);
-        }
-      }
-    );
-  }
-
-
-    hideLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "none";
 
   }
-  showLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "block";
+
+  hideLogoutBtn() {
+    document.getElementById('logoutBtn').classList.add('d-none');
 
   }
-  showLoginBtn() {
-    document.getElementById('loginBtn').style.display = "block";
-  }
-  hideLoginBtn() {
-    document.getElementById('loginBtn').style.display = "none";
-  }
-  showIntroSectionContainer() {
-    document.getElementById('introSectionContainer').style.display = "block";
-  }
-  hideIntroSectionContainer() {
-    document.getElementById('introSectionContainer').style.display = "none";
-  }
-  showGameSectionContainer() {
-    document.getElementById('gameSectionContainer').style.display = "block";
-  }
-  hideGameSectionContainer() {
-    document.getElementById('gameSectionContainer').style.display = "none";
-  }
+
 }

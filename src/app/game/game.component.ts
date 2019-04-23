@@ -25,7 +25,13 @@ export class GameComponent implements OnInit {
   constructor(private wordsSerivce: WordsService) { }
 
   ngOnInit() {
+    this.showLogoutBtn();
+
     this.chooseWord();
+  }
+
+  showLogoutBtn() {
+    document.getElementById('logoutBtn').classList.remove('d-none');
   }
 
   chooseWord():void {

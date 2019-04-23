@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { NgZone } from '@angular/core'
 
 declare var FB: any;
 
@@ -12,28 +13,11 @@ export class SignInComponent implements OnInit {
   title = 'Hangman';
   loginStatus: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private _ngZone: NgZone, private router: Router) { }
 
 
   ngOnInit() {
 
-    (window as any).fbAsyncInit = function () {
-      FB.init({
-        appId: '456804481528314',
-        cookie: true,
-        xfbml: true,
-        version: 'v3.2'
-      });
-      FB.AppEvents.logPageView();
-    };
-
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
 
   }
 
@@ -44,20 +28,19 @@ export class SignInComponent implements OnInit {
       console.log('submitLogin', response);
       if (response.authResponse) {
         localStorage.setItem('token', response.authResponse.accessToken);
-        this.hideLoginBtn();
-        this.showLogoutBtn();
-
         console.log(el);
+        this.showLogoutBtn();
         this.loginStatus = true;
 
         this.graphAPI(response.authResponse.userID);
         //login success
         //login success code here
         //redirect to home page
-        this.router.navigateByUrl('game');
-        this.hideIntroSectionContainer();
-        this.showGameSectionContainer();
-      }
+        this._ngZone.run(() => {
+          this.router.navigateByUrl('game');
+        }
+
+        )}
       else {
         console.log('User login failed');
       }
@@ -65,23 +48,9 @@ export class SignInComponent implements OnInit {
 
   }
 
-  logout() {
-    let _self = this;
-    FB.logout(function (response) {
-      if (response) {
-        _self.loginStatus = false;
-        _self.showLoginBtn();
-        _self.hideLogoutBtn();
-        _self.showIntroSectionContainer();
-        _self.hideGameSectionContainer();
-        _self.router.navigateByUrl('/');
-        console.log('logout', response)
-      }
-
-    })
+  showLogoutBtn() {
+    document.getElementById('logoutBtn').classList.remove('d-none');
   }
-
-
 
   graphAPI(userId) {
     /* make the API call */
@@ -96,30 +65,4 @@ export class SignInComponent implements OnInit {
   }
 
 
-  hideLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "none";
-
-  }
-  showLogoutBtn() {
-    document.getElementById('logoutBtn').style.display = "block";
-
-  }
-  showLoginBtn() {
-    document.getElementById('loginBtn').style.display = "block";
-  }
-  hideLoginBtn() {
-    document.getElementById('loginBtn').style.display = "none";
-  }
-  showIntroSectionContainer() {
-    document.getElementById('introSectionContainer').style.display = "block";
-  }
-  hideIntroSectionContainer() {
-    document.getElementById('introSectionContainer').style.display = "none";
-  }
-  showGameSectionContainer() {
-    document.getElementById('gameSectionContainer').style.display = "block";
-  }
-  hideGameSectionContainer() {
-    document.getElementById('gameSectionContainer').style.display = "none";
-  }
 }
