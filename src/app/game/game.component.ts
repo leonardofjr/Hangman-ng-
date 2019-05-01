@@ -7,10 +7,10 @@ import { Words } from '../words';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  topRow: string[] = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
-  middleRow: string[] = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']
-  bottomRow: string[] =  ['z', 'x', 'c', 'v', 'b', 'n', 'm']
-
+  topRow: string[] = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
+  middleRow: string[] = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
+  bottomRow: string[] =  ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
+  showHangman:boolean = true;
   playerInput: string = undefined;
   words;
   word: String[] = [];
@@ -21,13 +21,35 @@ export class GameComponent implements OnInit {
   matchFound: boolean;
   gameOver: boolean = false;
   win: boolean = false;
+  showKeyboard: boolean = true;
+  modalTitle: String;
+  modalBody: String;
 
   constructor(private wordsSerivce: WordsService) { }
 
   ngOnInit() {
     this.showLogoutBtn();
+    this.initGame();
+  }
+  resetGame() {
+    this.lettersPlayed = [];
+    this.letterCount = 0;
+    this.lives = 0;
+    this.win = false;
+    this.gameOver = false;
+    this.playerInput = undefined;
+    this.revealedLetters = [];
+    this.matchFound = undefined;
+    this.words = undefined;
+    this.word = [];
+    this.showKeyboard = true;
+    this.showHangman = true;
+    this.initGame();
+  }
 
+  initGame() {
     this.chooseWord();
+
   }
 
   showLogoutBtn() {
@@ -75,14 +97,21 @@ export class GameComponent implements OnInit {
 
 
   renderHangman(): void {
-    if (this.gameOver === false) {
-      this.lives++;
-      document.getElementById('hangman-img').setAttribute('src', `./assets/imgs/${this.lives}.png`)
-    }
+    if (this.showHangman) {
+
+      if (this.gameOver === false) {
+        this.lives++;
+        document.getElementById('hangman-img').setAttribute('src', `./assets/imgs/${this.lives}.png`)
+      }
 
 
-    if (this.lives === 6) {
-      this.gameOver = true;
+      if (this.lives === 6) {
+        this.gameOver = true;
+        this.showKeyboard = false;
+        this.showHangman = false;
+        this.modalTitle = "You lose";
+        this.modalBody = "You lose";
+      }
     }
 
   }
@@ -105,7 +134,12 @@ export class GameComponent implements OnInit {
     if (this.revealedLetters.length === this.word.length) {
       this.gameOver = true;
       this.win = true;
+      this.showKeyboard = false;
+      this.showHangman = false;
+      this.modalTitle = "You win";
+      this.modalBody = "You win";
     }
+
   }
 
 
